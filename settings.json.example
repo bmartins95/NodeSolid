@@ -8,5 +8,8 @@
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always"
+    },
+    "[prisma]": {
+        "editor.formatOnSave": true
     }
 }
