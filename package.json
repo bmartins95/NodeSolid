@@ -2,10 +2,13 @@
   "name": "nodesolid",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "test": "vitest run",
+    "watch": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +23,9 @@
     "tsup": "8.5.0",
     "tsx": "4.20.3",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.35.1"
+    "typescript-eslint": "8.35.1",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.2.4"
   },
   "dependencies": {
     "@prisma/client": "6.11.0",

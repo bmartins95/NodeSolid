@@ -19,11 +19,13 @@ export class RegisterUserService {
         }
 
         const password_hash = await hash(password, 6)
-        this.userRepository.create({
+        const user = await this.userRepository.create({
             name,
             email,
             password_hash
         })
+
+        return { user }
     }
 }
 
