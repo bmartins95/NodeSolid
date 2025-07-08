@@ -1,17 +1,24 @@
-import { expect, test, describe } from "vitest"
+import { expect, test, describe, beforeEach } from "vitest"
 import { compare } from "bcryptjs"
 
 import { UserAlreadyExistsError } from "@/services/errors/user-already-exists"
 import { RegisterUserService } from "../src/services/register-user"
 import { TestUserRepository } from "./test-user-repository"
 
+let userRepository: TestUserRepository
+let registerUserService: RegisterUserService
+
 describe("User Register",
     () => {
+        beforeEach(
+            () => {
+                userRepository = new TestUserRepository()
+                registerUserService = new RegisterUserService(userRepository)
+            }
+        )
+
         test("user password should be hashed under registration",
             async () => {
-                const userRepository = new TestUserRepository()
-                const registerUserService = new RegisterUserService(userRepository)
-
                 const password = "123456"
                 const { user } = await registerUserService.execute({
                     name: "John Doe",
@@ -26,9 +33,6 @@ describe("User Register",
 
         test("only one user by email address",
             async () => {
-                const userRepository = new TestUserRepository()
-                const registerUserService = new RegisterUserService(userRepository)
-
                 const password = "123456"
                 await registerUserService.execute({
                     name: "John Doe",
@@ -48,9 +52,6 @@ describe("User Register",
 
         test("it should be able to register user",
             async () => {
-                const userRepository = new TestUserRepository()
-                const registerUserService = new RegisterUserService(userRepository)
-
                 const { user } = await registerUserService.execute({
                     name: "John Doe",
                     email: "john.doe@example.com",

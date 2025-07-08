@@ -1,17 +1,24 @@
-import { expect, test, describe } from "vitest"
+import { expect, test, describe, beforeEach } from "vitest"
 import { hash } from "bcryptjs"
 
 import { TestUserRepository } from "./test-user-repository"
 import { AuthenticateUserService } from "@/services/authenticate-user"
 import { InvalidCredentialsError } from "@/services/errors/invalid-credentials"
 
+let userRepository: TestUserRepository
+let authenticateUserService: AuthenticateUserService
+
 describe("Authenticate User",
     () => {
+        beforeEach(
+            () => {
+                userRepository = new TestUserRepository()
+                authenticateUserService = new AuthenticateUserService(userRepository)
+            }
+        )
+
         test("it should be able to authenticate",
             async () => {
-                const userRepository = new TestUserRepository()
-                const authenticateUserService = new AuthenticateUserService(userRepository)
-
                 await userRepository.create({
                     name: "John Doe",
                     email: "john.doe@example.com",
@@ -29,9 +36,6 @@ describe("Authenticate User",
 
         test("it should not be able to authenticate on invalid email",
             async () => {
-                const userRepository = new TestUserRepository()
-                const authenticateUserService = new AuthenticateUserService(userRepository)
-
                 await userRepository.create({
                     name: "John Doe",
                     email: "john.doe@example.com",
@@ -49,9 +53,6 @@ describe("Authenticate User",
 
         test("it should not be able to authenticate on invalid password",
             async () => {
-                const userRepository = new TestUserRepository()
-                const authenticateUserService = new AuthenticateUserService(userRepository)
-
                 await userRepository.create({
                     name: "John Doe",
                     email: "john.doe@example.com",
