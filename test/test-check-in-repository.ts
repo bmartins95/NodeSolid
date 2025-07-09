@@ -5,6 +5,16 @@ import { randomUUID } from "crypto"
 export class TestCheckInRepository implements CheckInRepository {
     public checkIns: CheckIn[] = []
 
+    async findById(checkInId: string): Promise<CheckIn | null> {
+        const checkIn = this.checkIns.find((checkIn) => checkIn.id == checkInId)
+
+        if (!checkIn) {
+            return null
+        }
+
+        return checkIn
+    }
+
     async findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
         const checkInByUserOnSameDate = this.checkIns.find(
             (checkIn) => {
@@ -36,6 +46,16 @@ export class TestCheckInRepository implements CheckInRepository {
             created_at: new Date()
         }
         this.checkIns.push(checkIn)
+        return checkIn
+    }
+
+    async save(checkIn: CheckIn): Promise<CheckIn> {
+        const checkInIndex = this.checkIns.findIndex(checkIn => checkIn.id === checkIn.id)
+
+        if (checkInIndex >= 0) {
+            this.checkIns[checkInIndex] = checkIn
+        }
+
         return checkIn
     }
 }
