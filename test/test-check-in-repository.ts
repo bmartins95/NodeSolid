@@ -21,6 +21,12 @@ export class TestCheckInRepository implements CheckInRepository {
         return checkInByUserOnSameDate
     }
 
+    async findAllByUserId(userId: string, page: number): Promise<CheckIn[]> {
+        return this.checkIns
+            .filter((checkIn) => checkIn.user_id === userId)
+            .slice((page - 1) * 20, page * 20)
+    }
+
     async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
         const checkIn = {
             id: randomUUID(),
