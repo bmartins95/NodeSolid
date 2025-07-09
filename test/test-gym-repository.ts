@@ -1,7 +1,8 @@
-import { GymRepository } from "@/repositories/gym-repository"
+import { FindAllByMaximumDistanceParams, GymRepository } from "@/repositories/gym-repository"
 import { Gym, Prisma } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { randomUUID } from "crypto"
+import { getDistance } from "geolib"
 
 export class TestGymRepository implements GymRepository {
     public gyms: Gym[] = []
@@ -27,5 +28,14 @@ export class TestGymRepository implements GymRepository {
         }
 
         return user
+    }
+
+    async findAllByMaximumDistance(params: FindAllByMaximumDistanceParams): Promise<Gym[]> {
+        return this.gyms.filter(
+            (gym) => getDistance(
+                { latitude: params.latitude, longitude: params.longitude },
+                { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+            ) <= 100
+        )
     }
 }
