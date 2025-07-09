@@ -3,6 +3,8 @@ import { CheckInRepository } from "@/repositories/check-in-repository"
 import { GymRepository } from "@/repositories/gym-repository"
 import { ResourceNotFoundError } from "./errors/resource-not-found"
 import { getDistance } from "geolib"
+import { UserTooFarFromGymError } from "./errors/user-too-far-from-gym"
+import { UserAlreadyCheckedInTodayError } from "./errors/user-already-checked-in-today"
 
 interface CheckinUserRequest {
     userId: string
@@ -35,7 +37,7 @@ export class CheckInUserService {
 
         const MAX_DISTANCE_TO_GYM_IN_METERS = 100
         if (userDistanceToGym > MAX_DISTANCE_TO_GYM_IN_METERS) {
-            throw new Error()
+            throw new UserTooFarFromGymError()
         }
 
         const checkInOnSameDay = await this.checkInRepository.findByUserIdOnDate(
@@ -44,7 +46,7 @@ export class CheckInUserService {
         )
 
         if (checkInOnSameDay) {
-            throw new Error()
+            throw new UserAlreadyCheckedInTodayError()
         }
 
         const checkIn = await this.checkInRepository.create({
