@@ -2,6 +2,7 @@ import { CheckIn } from "@prisma/client"
 import { CheckInRepository } from "@/repositories/check-in-repository"
 import { GymRepository } from "@/repositories/gym-repository"
 import { ResourceNotFoundError } from "./errors/resource-not-found"
+import { getDistance } from "geolib"
 
 interface CheckinUserRequest {
     userId: string
@@ -20,11 +21,21 @@ export class CheckInUserService {
         private gymRepository: GymRepository
     ) { }
 
-    async execute({ userId, gymId }: CheckinUserRequest): Promise<CheckinUserResponse> {
+    async execute({ userId, gymId, userLatitude, userLongitude }: CheckinUserRequest): Promise<CheckinUserResponse> {
         const gym = await this.gymRepository.findById(gymId)
 
         if (!gym) {
             throw new ResourceNotFoundError()
+        }
+
+        const userDistanceToGym = getDistance(
+            { latitude: userLatitude, longitude: userLongitude },
+            { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+        )
+
+        const MAX_DISTANCE_TO_GYM_IN_METERS = 100
+        if (userDistanceToGym > MAX_DISTANCE_TO_GYM_IN_METERS) {
+            throw new Error()
         }
 
         const checkInOnSameDay = await this.checkInRepository.findByUserIdOnDate(

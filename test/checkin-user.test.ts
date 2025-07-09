@@ -44,8 +44,6 @@ describe("Check In User",
                     userLongitude: 0
                 })
 
-                console.log(checkIn.created_at)
-
                 expect(checkIn.id).toEqual(expect.any(String))
             }
         )
@@ -93,6 +91,28 @@ describe("Check In User",
                 })
 
                 expect(checkIn.id).toEqual(expect.any(String))
+            }
+        )
+
+        test("it should not be able to check in on distant gym",
+            async () => {
+                vi.setSystemTime(new Date(2025, 0, 20, 8, 0, 0))
+
+                gymRepository.create({
+                    id: "gym2",
+                    title: "Test gym 2",
+                    latitude: 20,
+                    longitude: 20
+                })
+
+                await expect(
+                    checkInUserService.execute({
+                        userId: "user1",
+                        gymId: "gym2",
+                        userLatitude: 0,
+                        userLongitude: 0
+                    })
+                ).rejects.toThrow(Error)
             }
         )
     }
