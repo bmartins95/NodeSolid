@@ -1,6 +1,6 @@
 import { expect, test, describe, beforeEach } from "vitest"
 
-import { TestCheckInRepository } from "./test-check-in-repository"
+import { TestCheckInRepository } from "../test-check-in-repository"
 import { FetchUserCheckInsService } from "@/services/fetch-user-check-ins"
 
 let checkInRepository: TestCheckInRepository

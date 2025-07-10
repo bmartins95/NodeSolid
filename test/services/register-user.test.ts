@@ -3,7 +3,7 @@ import { compare } from "bcryptjs"
 
 import { UserAlreadyExistsError } from "@/services/errors/user-already-exists"
 import { RegisterUserService } from "../src/services/register-user"
-import { TestUserRepository } from "./test-user-repository"
+import { TestUserRepository } from "../test-user-repository"
 
 let userRepository: TestUserRepository
 let registerUserService: RegisterUserService

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "vitest"
-import { TestGymRepository } from "./test-gym-repository"
+import { TestGymRepository } from "../test-gym-repository"
 import { CreateGymService } from "@/services/create-gym"
 
 let gymRepository: TestGymRepository

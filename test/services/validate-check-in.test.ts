@@ -1,6 +1,6 @@
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest"
 
-import { TestCheckInRepository } from "./test-check-in-repository"
+import { TestCheckInRepository } from "../test-check-in-repository"
 import { ValidateCheckInService } from "@/services/validate-check-in"
 
 let checkInRepository: TestCheckInRepository

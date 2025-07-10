@@ -1,8 +1,8 @@
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest"
 
-import { TestCheckInRepository } from "./test-check-in-repository"
+import { TestCheckInRepository } from "../test-check-in-repository"
 import { CheckInUserService } from "@/services/check-in-user"
-import { TestGymRepository } from "./test-gym-repository"
+import { TestGymRepository } from "../test-gym-repository"
 import { UserTooFarFromGymError } from "@/services/errors/user-too-far-from-gym"
 import { UserAlreadyCheckedInTodayError } from "@/services/errors/user-already-checked-in-today"
 

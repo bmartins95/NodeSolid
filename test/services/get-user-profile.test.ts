@@ -1,7 +1,7 @@
 import { expect, test, describe, beforeEach } from "vitest"
 import { hash } from "bcryptjs"
 
-import { TestUserRepository } from "./test-user-repository"
+import { TestUserRepository } from "../test-user-repository"
 import { GetUserProfileService } from "@/services/get-user-profile"
 
 let userRepository: TestUserRepository
